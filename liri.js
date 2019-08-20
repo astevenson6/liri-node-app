@@ -39,33 +39,31 @@ var searchConcertThis = function (artist) {
     );
 };
 
-var spotifyThisSong = function(songName) {
+var spotifyThisSong = function (songName) {
     if (songName === undefined) {
-      songName = "The Sign";
+        songName = "The Sign";
     }
-  
-    spotify.search(
-      {
-        type: "track",
-        query: songName
-      },
-      function(err, data) {
-        if (err) {
-          console.log("Error occurred: " + err);
-          return;
-        }
-  
-        var songs = data.tracks.items;
-  
-        for (var i = 0; i < songs.length; i++) {
-          console.log(i);
-          console.log("artist(s): " + songs[i].artists.map(getArtistNames));
-          console.log("song name: " + songs[i].name);
-          console.log("preview song: " + songs[i].preview_url);
-          console.log("album: " + songs[i].album.name);
-          console.log("-----------------------------------");
-        }
-      }
-    );
-  };
 
+    spotify.search(
+        {
+            type: "track",
+            query: songName
+        },
+        function (err, data) {
+            if (err) {
+                console.log("Error occurred: " + err);
+                return;
+            }
+
+            var songs = data.tracks.items;
+
+            for (var i = 0; i < songs.length; i++) {
+                console.log(i);
+                console.log("Artists: " + songs[i].artists.map(getArtistNames));
+                console.log("Song Name: " + songs[i].name);
+                console.log("Preview: " + songs[i].preview_url);
+                console.log("Album: " + songs[i].album.name);
+            }
+        }
+    );
+};
