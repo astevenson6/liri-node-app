@@ -1,10 +1,14 @@
 require("dotenv").config();
 var keys = require("./keys.js");
-var spotify = new Spotify(keys.spotify);
 var Spotify = require("node-spotify-api");
+var spotify = new Spotify(keys.spotify);
 var axios = require("axios");
 var moment = require("moment");
 var fs = require("fs");
+
+var getArtistNames = function (artist) {
+    return artist.name;
+};
 
 var searchConcertThis = function (artist) {
     var queryURL = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
@@ -22,9 +26,6 @@ var searchConcertThis = function (artist) {
             for (var i = 0; i < response.data.length; i++) {
                 var show = response.data[i];
 
-                // Print data about each concert
-                // If a concert doesn't have a region, display the country instead
-                // Use moment to format the date
                 console.log(
                     show.venue.city +
                     "," +
@@ -91,3 +92,35 @@ var movieThis = function (movieName) {
         }
     );
 };
+
+// not really sure how to make this fs work. just know i need to read file
+var doWhatItSays = function () {
+    fs.readFile("random.txt", "utf8", function (error, data) {
+        console.log(data);
+    });
+};
+
+var pick = function (caseData, functionData) {
+    switch (caseData) {
+        case "concert-this":
+            searchConcertThis(functionData);
+            break;
+        case "spotify-this-song":
+            spotifyThisSong(functionData);
+            break;
+        case "movie-this":
+            movieThis(functionData);
+            break;
+        case "do-what-it-says":
+            doWhatItSays();
+            break;
+        default:
+            console.log("Can't do that");
+    }
+};
+
+var runThis = function (argOne, argTwo) {
+    pick(argOne, argTwo);
+};
+
+runThis(process.argv[2], process.argv[3]);
